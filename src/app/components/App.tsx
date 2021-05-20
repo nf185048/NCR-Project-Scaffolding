@@ -52,7 +52,7 @@ const App = ({}) => {
       <div className='container'>
         <h3>Pages:</h3>
         <form>
-          <input type='checkbox' id='brainStorming' /> Brainstorming <br />
+          <input type='checkbox' id='brainstorming' /> Brainstorming <br />
           <input type='checkbox' id='research' /> Research <br />
           <input type='checkbox' id='uxInsights' /> UX Insights <br />
           <input type='checkbox' id='uxFlows' /> UX Flows <br />
