@@ -1,35 +1,37 @@
 import * as React from 'react'
 import '../styles/ui.css'
 import { Pages } from '../../plugin/types'
+import { Title } from 'react-figma-plugin-ds'
 
 declare function require(path: string): any
 
 const App = ({}) => {
-  // function printChecked() {
-  //   var items = document.getElementsByName('acs')
-  //   var selectedItems = ''
-  //   for (var i = 0; i < items.length; i++) {
-  //     if (items[i].type == 'checkbox' && items[i].checked == true) selectedItems += items[i].value + '\n'
-  //   }
-  //   alert(selectedItems)
-  // }
+  const brainstorming = () => (document.getElementById('brainstorming') as HTMLInputElement)?.checked
+  const research = () => (document.getElementById('research') as HTMLInputElement)?.checked
+  const uxInsights = () => (document.getElementById('uxInsights') as HTMLInputElement)?.checked
+  const uxFlows = () => (document.getElementById('uxFlows') as HTMLInputElement)?.checked
+  const uxWireframes = () => (document.getElementById('uxWireframes') as HTMLInputElement)?.checked
+  const uiDesign = () => (document.getElementById('uiDesign') as HTMLInputElement)?.checked
 
   const onCreate = React.useCallback(() => {
     let pages: Pages = {
-      introMaterial: false,
-      brainstorming: false,
-      research: false,
-      uxInsights: false,
-      uxFlows: false,
-      uxWireframes: false,
-      uiDesign: false
+      brainstorming: brainstorming(),
+      research: research(),
+      uxInsights: uxInsights(),
+      uxFlows: uxFlows(),
+      uxWireframes: uxWireframes(),
+      uiDesign: uiDesign()
     }
 
-    parent.postMessage({ pluginMessage: { type: 'create-pages' }, pages }, '*')
+    parent.postMessage({ pluginMessage: { type: 'create-pages', pages } }, '*')
   }, [])
 
   const onCancel = React.useCallback(() => {
     parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+  }, [])
+
+  const onDevHelper = React.useCallback(() => {
+    parent.postMessage({ pluginMessage: { type: 'dev' } }, '*')
   }, [])
 
   React.useEffect(() => {
@@ -43,21 +45,32 @@ const App = ({}) => {
   }, [])
 
   return (
-    <div>
+    <>
       <img src={require('../assets/logo.svg')} />
-      <h2>NCR Project Scaffolding</h2>
-      <h6>Pages:</h6>
-      <input type='checkbox' value='introMaterial' />
-      introMaterial <br />
-      <input type='checkbox' value='brainStorming' />
-      brainStorming <br />
-      <input type='checkbox' value='research' />
-      research <br />
-      <button id='create' onClick={onCreate}>
-        Create
-      </button>
-      <button onClick={onCancel}>Cancel</button>
-    </div>
+      <Title>NCR Project Scaffolding</Title>
+
+      <div className='container'>
+        <h3>Pages:</h3>
+        <form>
+          <input type='checkbox' id='brainStorming' /> Brainstorming <br />
+          <input type='checkbox' id='research' /> Research <br />
+          <input type='checkbox' id='uxInsights' /> UX Insights <br />
+          <input type='checkbox' id='uxFlows' /> UX Flows <br />
+          <input type='checkbox' id='uxWireframes' /> UX Wireframes <br />
+          <input type='checkbox' id='uiDesign' /> UI Design <br />
+        </form>
+      </div>
+
+      <div className='Buttongroup'>
+        <button id='create' onClick={onCreate}>
+          Create
+        </button>
+        <button id='create' onClick={onDevHelper}>
+          Dev Helper
+        </button>
+        <button onClick={onCancel}>Cancel</button>
+      </div>
+    </>
   )
 }
 

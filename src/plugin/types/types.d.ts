@@ -1,5 +1,4 @@
 export interface Pages {
-  introMaterial: boolean
   brainstorming: boolean
   research: boolean
   uxInsights: boolean
